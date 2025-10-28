@@ -2,6 +2,8 @@
 
 Interactive CLI to set up [Pydantic Logfire](https://logfire.pydantic.dev/) with optional dependencies.
 
+https://github.com/user-attachments/assets/f41ff97f-6e84-4425-a752-7d0623954414
+
 ## What is this?
 
 `logfire-setup` is a CLI tool that helps you quickly add Logfire to your Python project with an interactive setup process similar to `create-next-app`. It:
