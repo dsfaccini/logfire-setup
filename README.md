@@ -36,7 +36,9 @@ logfire-setup
 
 ### 1. Authentication & Project Setup
 
-Automatically checks if you're authenticated with Logfire by validating `~/.logfire/default.toml`. If authenticated, fetches your projects, lets you select one, and runs `logfire projects use` to create `.logfire/logfire_credentials.json` in your project.
+Validates authentication by checking `~/.logfire/default.toml` for non-expired tokens. If not found, falls back to checking for `LOGFIRE_TOKEN` in environment variables or `.env` file.
+
+If authenticated and no existing project configuration is found, fetches your projects, lets you select one, and runs `logfire projects use` to create `.logfire/logfire_credentials.json` in your project. If valid credentials already exist, skips project selection.
 
 ### 2. Automatic Dependency Detection
 
@@ -68,13 +70,11 @@ Automatically runs:
 uv add logfire[fastapi,sqlalchemy,redis]
 ```
 
-### 5. Environment Validation
+### 5. MCP Configuration Check
 
-After installation, checks for:
-- `LOGFIRE_TOKEN` environment variable or `.env` file
-- MCP (Model Context Protocol) configuration for IDE integrations (Cursor, Claude Desktop, etc.)
+After installation, checks for MCP (Model Context Protocol) configuration in common IDE locations (Cursor, Claude Desktop, Cline, VS Code, Zed, etc.).
 
-Provides helpful links to create tokens and example configurations if missing.
+Provides example configurations and links to create read tokens if MCP is not configured or missing `LOGFIRE_READ_TOKEN`.
 
 ### 6. AI Assistant Instructions
 

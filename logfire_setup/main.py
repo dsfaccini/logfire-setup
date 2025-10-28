@@ -254,6 +254,30 @@ def check_and_display_auth() -> bool:
         return False
 
 
+def check_existing_credentials() -> str | None:
+    """
+    Check for existing logfire credentials and return project_url if valid.
+
+    Returns:
+        project_url if valid credentials exist, None otherwise.
+    """
+    credentials_file = Path.cwd() / ".logfire" / "logfire_credentials.json"
+
+    if not credentials_file.exists():
+        return None
+
+    try:
+        with open(credentials_file) as f:
+            data = json.load(f)
+            project_url = data.get("project_url")
+            if project_url:
+                return project_url
+    except (json.JSONDecodeError, FileNotFoundError, Exception):
+        pass
+
+    return None
+
+
 def prompt_project_selection() -> str | None:
     """Fetch and prompt user to select a Logfire project."""
     console.print("[bold]Fetching your Logfire projects...[/bold]")
@@ -323,14 +347,9 @@ def prompt_project_selection() -> str | None:
 
         # Read project_url from logfire_credentials.json
         global project_url
-        credentials_file = Path.cwd() / ".logfire" / "logfire_credentials.json"
-        console.print(f"Looking for credentials file at: {credentials_file}")
-        if credentials_file.exists():
-            with open(credentials_file) as f:
-                data = json.load(f)
-                project_url = data.get("project_url")
-                if project_url:
-                    console.print("[green]✓[/green] Project configured\n")
+        project_url = check_existing_credentials()
+        if project_url:
+            console.print("[green]✓[/green] Project configured\n")
         else:
             console.print("[yellow]⚠[/yellow] Could not find credentials file\n")
     except subprocess.CalledProcessError as e:
@@ -420,7 +439,21 @@ def main():
                 sys.exit(0)
 
         # Project selection (if authenticated)
-        project_path = prompt_project_selection() if is_authenticated else None
+        if is_authenticated:
+            # Check for existing credentials first
+            existing_project_url = check_existing_credentials()
+            if existing_project_url:
+                global project_url
+                project_url = existing_project_url
+                console.print(
+                    "[green]✓[/green] Found existing project configuration\n"
+                )
+                console.print(f"[dim]Project URL: {project_url}[/dim]\n")
+                project_path = project_url  # Use URL as path identifier
+            else:
+                project_path = prompt_project_selection()
+        else:
+            project_path = None
 
         # Detect existing dependencies
         detected_integrations = detect_and_display_dependencies(project_dir)

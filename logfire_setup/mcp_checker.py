@@ -23,7 +23,7 @@ def get_read_token_url(project_url: str | None) -> str | None:
         The URL to create a new read token, or None if project_url is None.
     """
     if not project_url:
-        return None
+        return 'https://logfire.pydantic.dev/-/redirect/latest-project/settings/read-tokens'
     return f"{project_url}/settings/read-tokens/new"
 
 
