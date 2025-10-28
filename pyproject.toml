@@ -35,8 +35,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/pydantic/logfire-setup"
-Source = "https://github.com/pydantic/logfire-setup"
+Homepage = "https://github.com/dsfaccini/logfire-setup"
+Source = "https://github.com/dsfaccini/logfire-setup"
 
 [project.scripts]
 logfire-setup = "logfire_setup.main:main"
