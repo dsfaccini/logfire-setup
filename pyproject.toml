@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "logfire-setup"
+version = "0.1.0"
+description = "Interactive CLI to set up Pydantic Logfire with optional dependencies"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "David Sanchez", email = "64162682+dsfaccini@users.noreply.github.com" },
+]
+license = "MIT"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "httpx>=0.28.1",
+    "questionary>=2.1.1",
+    "rich>=14.2.0",
+    "tomli>=2.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/pydantic/logfire-setup"
+Source = "https://github.com/pydantic/logfire-setup"
+
+[project.scripts]
+logfire-setup = "logfire_setup.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["logfire_setup"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.2",
+    "ty>=0.0.1a24",
+]
